@@ -28,6 +28,8 @@ class ScheduleResource extends Resource
                     ->schema([
                         Forms\Components\Section::make()
                             ->schema([
+                                Forms\Components\Toggle::make('is_banned')
+                                    ->label('Banned Account'),
                                 Forms\Components\Select::make('user_id')
                                     ->relationship('user', 'name')
                                     ->required()
@@ -72,6 +74,9 @@ class ScheduleResource extends Resource
                     ->sortable(),
                 Tables\Columns\BooleanColumn::make('is_wfa')
                     ->label('WFA'),
+                Tables\Columns\ToggleColumn::make('is_banned')
+                    ->label('Banned Account')
+                    ->hidden(fn() => !Auth::user()->hasRole('super_admin')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
