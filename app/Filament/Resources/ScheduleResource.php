@@ -74,9 +74,9 @@ class ScheduleResource extends Resource
                     ->sortable(),
                 Tables\Columns\BooleanColumn::make('is_wfa')
                     ->label('WFA'),
-                Tables\Columns\ToggleColumn::make('is_banned')
-                    ->label('Banned Account')
-                    ->hidden(fn() => !Auth::user()->hasRole('super_admin')),
+                // Tables\Columns\ToggleColumn::make('is_banned')
+                //     ->label('Banned Account')
+                //     ->hidden(fn() => !Auth::user()->hasRole('super_admin')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
