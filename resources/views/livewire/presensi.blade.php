@@ -125,7 +125,7 @@
                 }
             })
         } else {
-            alert('Geolocation is not supported by this browser.');
+            alert('Tidak bisa mendapatkan lokasi');
         }
     }
 
