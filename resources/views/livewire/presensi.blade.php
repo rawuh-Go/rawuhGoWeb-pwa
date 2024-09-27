@@ -53,9 +53,9 @@
                     <div id="map" class="w-full h-96 rounded-lg border-2 border-gray-300 mb-6 shadow-inner" wire:ignore>
                     </div>
                     <form class="flex flex-col sm:flex-row gap-4" enctype="multipart/form-data" wire:submit="store">
-                        <button type="button" onclick="tagLocation()"
+                        <button type="button" onclick=""
                             class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow-md">
-                            Ambil Lokasi
+                            Presensi
                         </button>
                         @if ($insideRadius)
                             <button
@@ -84,6 +84,7 @@
 
     document.addEventListener('livewire:initialized', function () {
         component = @this;
+        // add map layer
         map = L.map('map').setView([{{$schedule->office->latitude}}, {{$schedule->office->longitude}}], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 

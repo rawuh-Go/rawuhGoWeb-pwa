@@ -1,0 +1,19 @@
+1. Perbaikan permission pada role user dan role admin
+    - izin melihat data keseluruhan hanya pada admin.
+    - user hanya melihat datanya sendiri.
+
+2. Perancangan fitur wfa/wfo
+    - mengubah tabel awal schedule tambahkan dengan wfa/wfo
+    - migrasi database.
+    - penyesuaian resource.
+
+3. Perancangan halaman presensi
+    - menggunakan livewire
+    - pengaplikasian leaflet js sebagai map.
+    - logika belum masuk.
+
+4. Perancangan fitur cuti/leave
+    - merancang tabel baru
+    - migrasi dan set model.
+    - setup akses perizinan antara user dan admin.
+    - approval izin cuti pada admin.

@@ -72,7 +72,7 @@ class OfficeResource extends Resource
                                         Forms\Components\TextInput::make('radius')
                                             ->required()
                                             ->numeric()
-                                            ->suffix('meters'),
+                                            ->suffix('meter'),
                                     ]),
                             ]),
                     ])
@@ -94,7 +94,7 @@ class OfficeResource extends Resource
                 Tables\Columns\TextColumn::make('radius')
                     ->numeric()
                     ->sortable()
-                    ->suffix(' meters'),
+                    ->suffix(' meter'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
