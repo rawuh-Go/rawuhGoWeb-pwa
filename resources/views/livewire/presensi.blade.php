@@ -52,8 +52,44 @@
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Presensi</h2>
                     <div id="map" class="w-full h-96 rounded-lg border-2 border-gray-300 mb-6 shadow-inner" wire:ignore>
                     </div>
+
+                    <!-- pop up error -->
+                    @if (session()->has('error'))
+                        <div class="error-message">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="error-icon">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <span>{{ session('error') }}</span>
+                        </div>
+
+                        <style>
+                            .error-message {
+                                display: flex;
+                                align-items: center;
+                                padding: 12px 16px;
+                                background-color: #FEE2E2;
+                                border: 1px solid #FCA5A5;
+                                border-radius: 6px;
+                                color: #B91C1C;
+                                font-family: Arial, sans-serif;
+                                font-size: 14px;
+                                margin-bottom: 16px;
+                            }
+
+                            .error-icon {
+                                width: 24px;
+                                height: 24px;
+                                margin-right: 12px;
+                                color: #DC2626;
+                            }
+                        </style>
+                    @endif
+
                     <form class="flex flex-col sm:flex-row gap-4" enctype="multipart/form-data" wire:submit="store">
-                        <button type="button" onclick=""
+                        <button type="button" onclick="tagLocation()"
                             class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow-md">
                             Presensi
                         </button>

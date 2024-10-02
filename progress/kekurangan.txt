@@ -1,0 +1,14 @@
+1.  -  pada fitur leave ada type izin [sakit, izin pribadi, cuti].
+    -  reason/alasan diganti deskripsi izin
+    -  migrasi database, menambahkan bukti/attachment izin, menggunakan dokument/foto.
+    - tambahkan tanggal pengajuan -> untuk untuk sorting desc.
+
+2. - menambahkan map pada setiap attendance, mengambil dari lat datang lng datang, lat datang lng pulang.
+
+3. - pada data user
+
+- tambahkan foto
+
+- tambahkan keterangan profesi/posisi karyawan.
+
+4. logic absensi pertama klik masuk, nanti hanya bagian jam masuk yang terisi, tetapi untuk jam keluar masih kosong, diisi ketika karyawan absensi pulang.

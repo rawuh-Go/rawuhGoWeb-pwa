@@ -1,5 +1,0 @@
-1.  -  pada fitur leave ada type izin [sakit, izin pribadi, cuti].
-    -  reason/alasan diganti deskripsi izin
-    -  migrasi database, menambahkan bukti/attachment izin, menggunakan dokument/foto.
-    - tambahkan tanggal pengajuan -> untuk untuk sorting desc.
-2. 
