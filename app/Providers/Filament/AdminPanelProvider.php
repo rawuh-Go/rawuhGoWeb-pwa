@@ -28,7 +28,12 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'danger' => Color::Rose,
+                'gray' => Color::Slate,
+                'info' => Color::Sky,
+                'primary' => '#2A5867',
+                'success' => Color::Teal,
+                'warning' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -56,6 +61,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
-            ]);
+            ])
+            ->favicon(asset('images/favicon.png'))
+            ->brandLogo(asset('images/logo.png'));
     }
 }

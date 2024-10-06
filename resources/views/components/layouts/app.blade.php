@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rawuh-Go</title>
 
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="http://unpkg.com/leaflet/dist/leaflet.css">
 

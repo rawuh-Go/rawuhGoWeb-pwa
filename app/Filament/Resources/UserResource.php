@@ -38,7 +38,9 @@ class UserResource extends Resource
                                 Forms\Components\Select::make('roles')
                                     ->relationship('roles', 'name')
                                     ->preload()
-                                    ->searchable()
+                                    ->searchable(),
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Profile Picture')
                             ])
                     ]),
                 Forms\Components\Group::make()
@@ -62,6 +64,9 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Profile Picture')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
