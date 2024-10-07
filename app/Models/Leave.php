@@ -17,6 +17,9 @@ class Leave extends Model
         'reason',
         'status',
         'catatan',
+        'tanggal',
+        'type_leave',
+        'attachment',
     ];
 
     public function user(): BelongsTo

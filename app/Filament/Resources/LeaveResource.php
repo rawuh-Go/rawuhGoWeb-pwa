@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LeaveResource extends Resource
 {
@@ -29,9 +30,24 @@ class LeaveResource extends Resource
                         ->required(),
                     Forms\Components\DatePicker::make('tanggal_selesai')
                         ->required(),
+                    Forms\Components\Select::make('type_leave')
+                        ->options([
+                            'Sick Leave' => 'Sick Leave',
+                            'Personal Leave' => 'Personal Leave',
+                            'Marriage Leave' => 'Marriage Leave',
+                            'Annual Leave' => 'Annual Leave',
+                        ])
+                        ->default('Personal Leave')
+                        ->required(),
                     Forms\Components\Textarea::make('reason')
                         ->required()
                         ->columnSpanFull(),
+                    Forms\Components\FileUpload::make('attachment')
+                        ->label('Bukti/Attachment')
+                        ->required()
+                        ->disk('public')
+                        ->directory('attachments')
+                        ->acceptedFileTypes(['image/*', 'application/pdf']),
                 ]),
 
         ];
@@ -60,15 +76,22 @@ class LeaveResource extends Resource
                     $query->where('user_id', Auth::user()->id);
                 }
             })
+            ->defaultSort('tanggal', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('tanggal')
+                    ->label('Tanggal')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tanggal_mulai')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tanggal_selesai')
                     ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('type_leave')
+                    ->label('Type Leave')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
