@@ -20,6 +20,7 @@ class Leave extends Model
         'tanggal',
         'type_leave',
         'attachment',
+        'approved_by',
     ];
 
     public function user(): BelongsTo

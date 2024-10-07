@@ -40,7 +40,8 @@ class UserResource extends Resource
                                     ->preload()
                                     ->searchable(),
                                 Forms\Components\FileUpload::make('image')
-                                    ->label('Profile Picture'),
+                                    ->label('Profile Picture')
+                                    ->acceptedFileTypes(['image/*']),
                             ])
                     ]),
                 Forms\Components\Group::make()

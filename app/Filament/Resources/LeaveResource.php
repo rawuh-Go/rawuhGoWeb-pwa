@@ -48,19 +48,32 @@ class LeaveResource extends Resource
                         ->disk('public')
                         ->directory('attachments')
                         ->acceptedFileTypes(['image/*', 'application/pdf']),
+                    Forms\Components\Hidden::make('approved_by')
+                        ->visible(fn() => Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('HRD')),
+                    Forms\Components\Hidden::make('approved_by_role')
+                        ->visible(fn() => Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('HRD')),
+
                 ]),
 
         ];
-        if (Auth::user()->hasRole('super_admin')) {
+        if (Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('HRD')) {
             $schema[] = Forms\Components\Section::make('Permission')
                 ->schema([
                     Forms\Components\Select::make('status')
                         ->options([
                             'approve' => 'Approved',
                             'Rejected' => 'Rejected',
-                        ]),
+                        ])
+                        ->afterStateUpdated(function ($state, $set) {
+                            $user = Auth::user();
+                            $role = $user->hasRole('super_admin') ? 'super_admin' : 'HRD';
+                            $set('approved_by', $user->name);
+                            $set('approved_by_role', $role);
+                        }),
                     Forms\Components\Textarea::make('catatan')
                         ->columnSpanFull(),
+                    Forms\Components\Hidden::make('approved_by'),
+                    Forms\Components\Hidden::make('approved_by_role'),
                 ]);
         }
         return $form->schema($schema);
@@ -70,7 +83,7 @@ class LeaveResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function (Builder $query) {
-                $is_super_admin = Auth::user()->hasRole('super_admin');
+                $is_super_admin = Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('HRD');
 
                 if (!$is_super_admin) {
                     $query->where('user_id', Auth::user()->id);
@@ -102,6 +115,10 @@ class LeaveResource extends Resource
                         'pending' => 'warning',
                     })
                     ->description(fn(Leave $record): string => $record->catatan ? $record->catatan : '-'),
+                Tables\Columns\TextColumn::make('approved_by')
+                    ->label('Approved By')
+                    ->description(fn(Leave $record): string => $record->approved_by_role ?? '-')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
