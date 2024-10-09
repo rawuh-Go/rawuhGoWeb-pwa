@@ -42,7 +42,8 @@
                     <div
                         class="bg-gradient-to-r from-red-50 to-rose-50 rounded-xl p-6 shadow-md transition duration-300 hover:shadow-lg">
                         <h3 class="text-xl font-semibold text-rose-800 mb-2">Waktu Pulang</h3>
-                        <p class="text-3xl font-bold text-rose-600">{{$attendance ? $attendance->waktu_pulang : '-'}}
+                        <p class="text-3xl font-bold text-rose-600">
+                            {{$attendance && $attendance->waktu_pulang ? $attendance->waktu_pulang : '-'}}
                         </p>
                     </div>
                 </div>
@@ -53,45 +54,26 @@
                     <div id="map" class="w-full h-96 rounded-lg border-2 border-gray-300 mb-6 shadow-inner" wire:ignore>
                     </div>
 
-                    <!-- pop up error -->
-                    @if (session()->has('error'))
-                        <div class="error-message">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="error-icon">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="8" x2="12" y2="12"></line>
-                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                            </svg>
-                            <span>{{ session('error') }}</span>
+
+                    <!-- Messages -->
+                    @if (session()->has('message'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                            role="alert">
+                            <span class="block sm:inline">{{ session('message') }}</span>
                         </div>
+                    @endif
 
-                        <style>
-                            .error-message {
-                                display: flex;
-                                align-items: center;
-                                padding: 12px 16px;
-                                background-color: #FEE2E2;
-                                border: 1px solid #FCA5A5;
-                                border-radius: 6px;
-                                color: #B91C1C;
-                                font-family: Arial, sans-serif;
-                                font-size: 14px;
-                                margin-bottom: 16px;
-                            }
-
-                            .error-icon {
-                                width: 24px;
-                                height: 24px;
-                                margin-right: 12px;
-                                color: #DC2626;
-                            }
-                        </style>
+                    @if (session()->has('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                            role="alert">
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
                     @endif
 
                     <form class="flex flex-col sm:flex-row gap-4" enctype="multipart/form-data" wire:submit="store">
                         <button type="button" onclick="tagLocation()"
                             class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow-md">
-                            Presensi
+                            Ambil Lokasi
                         </button>
                         @if ($insideRadius)
                             <button
