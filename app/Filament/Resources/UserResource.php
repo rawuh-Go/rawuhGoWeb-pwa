@@ -48,6 +48,19 @@ class UserResource extends Resource
                     ->schema([
                         Forms\Components\Section::make()
                             ->schema([
+                                Forms\Components\Select::make('gender')
+                                    ->options([
+                                        'laki-laki' => 'Laki-laki',
+                                        'perempuan' => 'Perempuan',
+                                    ])
+                                    ->required()
+                                    ->label('Gender'),
+                                Forms\Components\TextInput::make('address')
+                                    ->label('Address')
+                                    ->required(),
+                                Forms\Components\TextInput::make('phone_number')
+                                    ->label('Phone Number')
+                                    ->required(),
                                 Forms\Components\DateTimePicker::make('email_verified_at'),
                                 Forms\Components\TextInput::make('job_position')
                                     ->maxLength(255),
@@ -74,13 +87,10 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('roles.name')
+                Tables\Columns\TextColumn::make('job_position')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('job_position')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
