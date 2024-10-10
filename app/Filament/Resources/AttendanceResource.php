@@ -91,8 +91,14 @@ class AttendanceResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('waktu_datang')
                     ->label('Datang'),
+                Tables\Columns\ImageColumn::make('foto_absen_datang')
+                    ->label('Foto Absen Datang')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('waktu_pulang')
                     ->label('Pulang'),
+                Tables\Columns\ImageColumn::make('foto_absen_pulang')
+                    ->label('Foto Absen Pulang')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

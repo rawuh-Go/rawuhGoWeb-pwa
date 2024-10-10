@@ -8,12 +8,24 @@ use App\Models\Attendance;
 use App\Models\Leave;
 use Auth;
 use Carbon\Carbon;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class Presensi extends Component
 {
+    use WithFileUploads;
+
     public $latitude;
     public $longitude;
     public $insideRadius = false;
+    public $showCamera = false;
+    public $photo;
+
+    protected $rules = [
+        'photo' => 'required|image|max:1024', // max 1MB
+        'latitude' => 'required',
+        'longitude' => 'required',
+    ];
 
     public function render()
     {
@@ -27,12 +39,23 @@ class Presensi extends Component
         ]);
     }
 
-    public function store()
+    public function initiateAttendance()
     {
         $this->validate([
             'latitude' => 'required',
             'longitude' => 'required',
         ]);
+
+        if ($this->insideRadius) {
+            $this->showCamera = true;
+        } else {
+            session()->flash('error', 'Anda berada di luar radius yang diizinkan.');
+        }
+    }
+
+    public function capturePhoto()
+    {
+        $this->validate();
 
         $schedule = Schedule::where('user_id', Auth::user()->id)->first();
 
@@ -53,10 +76,19 @@ class Presensi extends Component
             $attendance = Attendance::where('user_id', Auth::user()->id)
                 ->whereDate('created_at', date('Y-m-d'))->first();
 
+            $user = Auth::user();
+            $fileName = time() . '.' . $this->photo->getClientOriginalExtension();
+            $folderPath = 'attendance/' . $user->name;
+
+            // Ensure the directory exists
+            Storage::disk('public')->makeDirectory($folderPath);
+
+            $photoPath = $this->photo->storeAs($folderPath, $fileName, 'public');
+
             if (!$attendance) {
                 // Presensi masuk
                 Attendance::create([
-                    'user_id' => Auth::user()->id,
+                    'user_id' => $user->id,
                     'schedule_latitude' => $schedule->office->latitude,
                     'schedule_longitude' => $schedule->office->longitude,
                     'schedule_waktu_datang' => $schedule->shift->waktu_datang,
@@ -64,7 +96,8 @@ class Presensi extends Component
                     'datang_latitude' => $this->latitude,
                     'datang_longitude' => $this->longitude,
                     'waktu_datang' => Carbon::now()->toTimeString(),
-                    // Tidak perlu menyertakan waktu_pulang di sini
+                    'foto_absen_datang' => $photoPath,
+                    'foto_absen_pulang' => null,
                 ]);
                 session()->flash('message', 'Presensi masuk berhasil.');
             } else {
@@ -77,10 +110,12 @@ class Presensi extends Component
                     'pulang_latitude' => $this->latitude,
                     'pulang_longitude' => $this->longitude,
                     'waktu_pulang' => Carbon::now()->toTimeString(),
+                    'foto_absen_pulang' => $photoPath,
                 ]);
                 session()->flash('message', 'Presensi pulang berhasil.');
             }
 
+            $this->reset(['photo', 'showCamera']);
             return redirect('admin/attendances');
         }
     }

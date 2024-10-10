@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-
 
 
 class Attendance extends Model
@@ -25,6 +25,12 @@ class Attendance extends Model
         'pulang_longitude',
         'waktu_datang',
         'waktu_pulang',
+        'foto_absen_datang',
+        'foto_absen_pulang',
+    ];
+
+    protected $casts = [
+        'foto_absen_pulang' => 'string',
     ];
 
     public function user(): BelongsTo
@@ -53,5 +59,15 @@ class Attendance extends Model
         $minutes = $duration->i;
 
         return "{$hours} Jam, {$minutes} Menit.";
+    }
+
+    public function getFotoAbsenDatangUrlAttribute()
+    {
+        return $this->foto_absen_datang ? Storage::disk('public')->url($this->foto_absen_datang) : null;
+    }
+
+    public function getFotoAbsenPulangUrlAttribute()
+    {
+        return $this->foto_absen_pulang ? Storage::disk('public')->url($this->foto_absen_pulang) : null;
     }
 }

@@ -54,7 +54,6 @@
                     <div id="map" class="w-full h-96 rounded-lg border-2 border-gray-300 mb-6 shadow-inner" wire:ignore>
                     </div>
 
-
                     <!-- Messages -->
                     @if (session()->has('message'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
@@ -70,19 +69,35 @@
                         </div>
                     @endif
 
-                    <form class="flex flex-col sm:flex-row gap-4" enctype="multipart/form-data" wire:submit="store">
-                        <button type="button" onclick="tagLocation()"
-                            class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow-md">
-                            Ambil Lokasi
-                        </button>
-                        @if ($insideRadius)
-                            <button
-                                class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 shadow-md"
-                                type="submit">
-                                Submit Presensi
+                    @if(!$showCamera)
+                        <form class="flex flex-col sm:flex-row gap-4" wire:submit.prevent="initiateAttendance">
+                            <button type="button" onclick="tagLocation()"
+                                class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow-md">
+                                Ambil Lokasi
                             </button>
-                        @endif
-                    </form>
+                            @if ($insideRadius)
+                                <button
+                                    class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 shadow-md"
+                                    type="submit">
+                                    Lanjut ke Foto
+                                </button>
+                            @endif
+                        </form>
+                    @else
+                        <div class="mt-4">
+                            <h3 class="text-xl font-semibold mb-2">Ambil Foto</h3>
+                            <div class="mb-4">
+                                <!-- Menggunakan input file dengan capture -->
+                                <input type="file" wire:model="photo" accept="image/*" capture="user" class="mb-2" required>
+                                @error('photo') <span class="text-red-500">{{ $message }}</span> @enderror
+                            </div>
+                            <button wire:click="capturePhoto"
+                                class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 shadow-md">
+                                Submit Presensi dengan Foto
+                            </button>
+                        </div>
+
+                    @endif
                 </div>
             </div>
         </div>

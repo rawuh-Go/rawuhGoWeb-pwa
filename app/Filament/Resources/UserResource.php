@@ -30,6 +30,7 @@ class UserResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('name')
                                     ->required()
+                                    ->label('Name')
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('email')
                                     ->email()
@@ -40,7 +41,7 @@ class UserResource extends Resource
                                     ->preload()
                                     ->searchable(),
                                 Forms\Components\FileUpload::make('image')
-                                    ->label('Profile Picture')
+                                    ->label('Photo Profile')
                                     ->acceptedFileTypes(['image/*']),
                             ])
                     ]),
@@ -61,6 +62,24 @@ class UserResource extends Resource
                                 Forms\Components\TextInput::make('phone_number')
                                     ->label('Phone Number')
                                     ->required(),
+                                Forms\Components\Select::make('country')
+                                    ->label('Country')
+                                    ->required()
+                                    ->options([
+                                        'Indonesia' => 'Indonesia',
+                                        'Malaysia' => 'Malaysia',
+                                        'Singapura' => 'Singapura',
+                                        'Brunei' => 'Brunei',
+                                        'Thailand' => 'Thailand',
+                                        'Vietnam' => 'Vietnam',
+                                        'Filipina' => 'Filipina',
+                                        'Laos' => 'Laos',
+                                        'Myanmar' => 'Myanmar',
+                                        'Philippines' => 'Philippines',
+                                        'United Kingdom' => 'United Kingdom',
+                                        'United States' => 'United States',
+                                        'Others' => 'Others',
+                                    ]),
                                 Forms\Components\DateTimePicker::make('email_verified_at'),
                                 Forms\Components\TextInput::make('job_position')
                                     ->maxLength(255),
@@ -81,16 +100,23 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Profile Picture')
+                    ->label('Photo Profile')
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Full Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('job_position')
+                    ->label('Position')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('job_position')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('job_position')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone_number')
+                    ->label('Phone Number'),
+                Tables\Columns\TextColumn::make('gender')
+                    ->label('Gender'),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Address'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
