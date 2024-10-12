@@ -60,9 +60,11 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+                \TomatoPHP\FilamentPWA\FilamentPWAPlugin::make()
             ])
             ->favicon(asset('images/favicon.png'))
             ->brandLogo(asset('images/logo.png'));
+            
     }
 }
